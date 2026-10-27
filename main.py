@@ -1,17 +1,27 @@
+import sys
+
 import gi
 
 gi.require_version("Gtk", "4.0")
-from gi.repository import Gtk  # ty:ignore[unresolved-import]
+gi.require_version("Adw", "1")
+from gi.repository import Adw, Gtk
 
 
-def on_activate(app):
-    win = Gtk.ApplicationWindow(application=app)
-    btn = Gtk.Button(label="Hello, World!")
-    btn.connect("clicked", lambda x: win.close())
-    win.set_child(btn)
-    win.present()
+class MainWindow(Gtk.ApplicationWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
-app = Gtk.Application(application_id="org.gtk.Example")
-app.connect("activate", on_activate)
-app.run(None)
+class TomatoApp(Adw.Application):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.connect("activate", self.on_activate)
+
+    def on_activate(self, app):
+        self.win = MainWindow(application=app)
+        self.win.present()
+
+
+if __name__ == "__main__":
+    app = TomatoApp(application_id="io.githubv.nautrw.Tomato")
+    app.run(sys.argv)
