@@ -3,11 +3,11 @@
     opacity: 0.6;
 }
 
-.todo-delete {
+.task-delete {
     opacity: 0;
     transition: opacity 50ms ease-in-out;
 }
 
-.todo-row:hover .todo-delete {
+.task-row:hover .task-delete {
     opacity: 1;
 }
