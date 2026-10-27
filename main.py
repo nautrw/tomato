@@ -6,7 +6,7 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 # from gi.repository import Gtk, Adw, Gio
-from gi.repository import Adw, Gtk, Gdk
+from gi.repository import Adw, Gdk, Gtk
 
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path("style.css")
@@ -45,13 +45,33 @@ class MainWindow(Gtk.ApplicationWindow):
         self.header = Gtk.HeaderBar()
         self.set_titlebar(self.header)
 
-        self.todos_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.main_window = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+        self.todos_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, vexpand=True)
+
+        scroll_window = Gtk.ScrolledWindow()
+        scroll_window.set_child(self.todos_box)
+        scroll_window.set_vexpand(True)
+        scroll_window.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+
+        task_input_box = Gtk.Entry(
+            placeholder_text="New Task...",
+            margin_top=8,
+            margin_bottom=8,
+            margin_end=8,
+            margin_start=8,
+        )
+
+        self.main_window.append(scroll_window)
+        self.main_window.append(task_input_box)
+
+        self.set_child(self.main_window)
+
+    def build_todos(self, todos: list[Task]) -> None:
         todos_box_label = Gtk.Label(label="Tasks List")
         todos_box_label.set_css_classes(["title-2"])
         self.todos_box.append(todos_box_label)
-        self.set_child(self.todos_box)
 
-    def build_todos(self, todos: list[Task]) -> None:
         for task in todos:
             task_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
             task_row.add_css_class("todo-row")
@@ -67,7 +87,7 @@ class MainWindow(Gtk.ApplicationWindow):
                 checkbox_label.add_css_class("completed")
             else:
                 checkbox_label.remove_css_class("completed")
-             
+
             trash_button = Gtk.Button.new_from_icon_name("user-trash-symbolic")
             trash_button.add_css_class("flat")
             trash_button.add_css_class("todo-delete")
@@ -82,10 +102,7 @@ class MainWindow(Gtk.ApplicationWindow):
             self.todos_box.append(task_row)
 
     def on_todo_toggled(
-        self,
-        checkbox: Gtk.CheckButton,
-        label: Gtk.Label,
-        task: Task
+        self, checkbox: Gtk.CheckButton, label: Gtk.Label, task: Task
     ) -> None:
         task.completed = checkbox.get_active()
 
@@ -96,7 +113,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
     def on_todo_delete(
         self,
-        button: Gtk.Button, # "clicked" event passes the button as first arg
+        button: Gtk.Button,  # "clicked" event passes the button as first arg
         task_row: Gtk.Box,
         task: Task,
     ) -> None:
