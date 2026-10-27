@@ -49,10 +49,10 @@ class Window(Gtk.ApplicationWindow):
 
         self.tasks_empty_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, vexpand=True, valign=Gtk.Align.CENTER, halign=Gtk.Align.CENTER)
         self.tasks_empty_box.append(
-            Gtk.Label(label="No tasks!",)
+            Gtk.Label(label="No tasks 😀", css_classes=["title-1"])
         )
         self.tasks_empty_box.append(
-            Gtk.Label(label="Congrats",)
+            Gtk.Label(label="Congrats!", css_classes=["dimmed", "title-2"])
         )
         self.todos_box.append(self.tasks_empty_box)
 
