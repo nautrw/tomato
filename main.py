@@ -37,6 +37,8 @@ class MainWindow(Gtk.ApplicationWindow):
         self.set_titlebar(self.header)
 
         self.todos_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        todos_box_label = Gtk.Label(label="Tasks List")
+        self.todos_box.append(todos_box_label)
         self.set_child(self.todos_box)
 
         self.check = Gtk.CheckButton(label="Test")
