@@ -24,7 +24,9 @@ def load_tasks(file_path: Path = TASKS_FILE) -> list[Task]:
     try:
         with file_path.open("r") as f:
             unserialized = json.load(f)
-            return [Task(**task) for task in unserialized]
+            result = [Task(**task) for task in unserialized]
+            print(f"loaded data from {file_path}: {result}")
+            return result
     except (json.JSONDecodeError, OSError) as e:
         print(f"Error: could not load tasks: {e}")
         return []
@@ -36,3 +38,5 @@ def save_tasks(tasks: list[Task], file_path: Path = TASKS_FILE) -> None:
     tasks_serialized = [asdict(task) for task in tasks]
     with file_path.open("w") as f:
         json.dump(tasks_serialized, f)
+
+    print(f"saved data at {file_path}")

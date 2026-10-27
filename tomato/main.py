@@ -2,7 +2,7 @@ import sys
 
 import gi
 
-from tomato.data import Task, load_tasks
+from tomato.data import Task, load_tasks, save_tasks
 from tomato.info import APP_ID
 from tomato.window import Window
 
@@ -22,11 +22,10 @@ class Application(Adw.Application):
         super().__init__(application_id=APP_ID)
 
         self._init_actions()
-        self.connect("activate", self._on_activate)
         self.data = load_tasks()
 
-    def _on_activate(self, app: Adw.Application) -> None:
-        self.win = Window(app, self.data, application=app)
+    def do_activate(self) -> None:
+        self.win = Window(self, self.data, application=self)
         self.win.present()
         self.win.build_todos()
 
@@ -42,7 +41,10 @@ class Application(Adw.Application):
 
             if shortcuts := details[1]:
                 self.set_accels_for_action(f"app.{name}", shortcuts)
-
+    
+    def do_shutdown(self) -> None:
+        print("shutting down")
+        save_tasks(self.data)
 
 def run() -> int:
     app = Application()
