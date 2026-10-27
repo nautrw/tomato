@@ -15,15 +15,7 @@ except (ImportError, ValueError) as e:
     sys.exit()
 
 test_data: list[Task] = [
-    Task("Invent metaphysics", False),
-    Task("Clean up Neovim config", True),
-    Task("Reunite Rome under the Pontifex Maximus", False),
-    Task("Build a pygame prototype", False),
-    Task("Achieve enlightenment", False),
-    Task("Update project README", True),
-    Task("Submit programming assignment", False),
-    Task("Buy groceries", False),
-    Task("Discover the meaning of life", False),
+
 ]
 
 
@@ -38,7 +30,7 @@ class Application(Adw.Application):
     def _on_activate(self, app: Adw.Application) -> None:
         self.win = Window(app, self.data, application=app)
         self.win.present()
-        self.win.build_todos(self.data)
+        self.win.build_todos()
 
     def _init_actions(self) -> None:
         actions = {
