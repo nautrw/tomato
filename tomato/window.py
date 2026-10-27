@@ -47,10 +47,14 @@ class Window(Gtk.ApplicationWindow):
         )
         task_input_box.connect("activate", self.add_todo)
 
-        self.tasks_empty_label = Gtk.Label(
-            label="Nothing To Do", vexpand=True, valign=Gtk.Align.BASELINE_CENTER
+        self.tasks_empty_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, vexpand=True, valign=Gtk.Align.CENTER, halign=Gtk.Align.CENTER)
+        self.tasks_empty_box.append(
+            Gtk.Label(label="No tasks!",)
         )
-        self.todos_box.append(self.tasks_empty_label)
+        self.tasks_empty_box.append(
+            Gtk.Label(label="Congrats",)
+        )
+        self.todos_box.append(self.tasks_empty_box)
 
         self.main_window.append(scroll_window)
         self.main_window.append(task_input_box)
@@ -101,7 +105,7 @@ class Window(Gtk.ApplicationWindow):
             self.add_task_row(task)
 
     def update_empty_state(self) -> None:
-        self.tasks_empty_label.set_visible(not self.data)
+        self.tasks_empty_box.set_visible(not self.data)
 
     def on_todo_toggled(
         self, checkbox: Gtk.CheckButton, label: Gtk.Label, task: Task
