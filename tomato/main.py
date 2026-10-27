@@ -3,7 +3,7 @@ import sys
 import gi
 
 from tomato.info import APP_ID
-from tomato.task import Task
+from tomato.data import Task
 from tomato.window import Window
 
 try:

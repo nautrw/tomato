@@ -2,7 +2,7 @@ import sys
 
 import gi
 
-from tomato.task import Task
+from tomato.data import Task
 
 try:
     gi.require_version("Gtk", "4.0")
@@ -47,7 +47,12 @@ class Window(Gtk.ApplicationWindow):
         )
         task_input_box.connect("activate", self.add_todo)
 
-        self.tasks_empty_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, vexpand=True, valign=Gtk.Align.CENTER, halign=Gtk.Align.CENTER)
+        self.tasks_empty_box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            vexpand=True,
+            valign=Gtk.Align.CENTER,
+            halign=Gtk.Align.CENTER,
+        )
         self.tasks_empty_box.append(
             Gtk.Label(label="No tasks 😀", css_classes=["title-1"])
         )
