@@ -5,6 +5,7 @@ import gi
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
+# from gi.repository import Gtk, Adw, Gio
 from gi.repository import Adw, Gtk
 
 @dataclass
@@ -29,6 +30,11 @@ test_data: list[Task] = [
 class MainWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+
+        self.set_title("Tomato")
+
+        self.header = Gtk.HeaderBar()
+        self.set_titlebar(self.header)
 
         self.todos_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.set_child(self.todos_box)
