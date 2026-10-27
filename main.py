@@ -53,18 +53,33 @@ class MainWindow(Gtk.ApplicationWindow):
 
     def build_todos(self, todos: list[Task]) -> None:
         for task in todos:
-            task_button = Gtk.CheckButton(active=task.completed)
+            task_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+            task_row.add_css_class("todo-row")
+
+            checkbox = Gtk.CheckButton(active=task.completed)
             checkbox_label = Gtk.Label(label=task.label)
-            task_button.set_child(checkbox_label)
+            checkbox.set_child(checkbox_label)
+
+            checkbox.set_hexpand(True)
+            checkbox.set_halign(Gtk.Align.FILL)
 
             if task.completed:
                 checkbox_label.add_css_class("completed")
             else:
                 checkbox_label.remove_css_class("completed")
              
+            trash_button = Gtk.Button.new_from_icon_name("user-trash-symbolic")
+            trash_button.add_css_class("flat")
+            trash_button.add_css_class("todo-delete")
+            trash_button.add_css_class("Delete Todo")
+            trash_button.set_halign(Gtk.Align.END)
+            trash_button.connect("clicked", self.on_todo_delete, task_row, task)
 
-            task_button.connect("toggled", self.on_todo_toggled, checkbox_label, task)
-            self.todos_box.append(task_button)
+            checkbox.connect("toggled", self.on_todo_toggled, checkbox_label, task)
+            task_row.append(checkbox)
+            task_row.append(trash_button)
+
+            self.todos_box.append(task_row)
 
     def on_todo_toggled(
         self,
@@ -78,6 +93,16 @@ class MainWindow(Gtk.ApplicationWindow):
             label.add_css_class("completed")
         else:
             label.remove_css_class("completed")
+
+    def on_todo_delete(
+        self,
+        button: Gtk.Button, # "clicked" event passes the button as first arg
+        task_row: Gtk.Box,
+        task: Task,
+    ) -> None:
+        test_data.remove(task)
+
+        self.todos_box.remove(task_row)
 
 
 class TomatoApp(Adw.Application):

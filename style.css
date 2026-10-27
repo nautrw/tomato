@@ -2,3 +2,12 @@
     text-decoration: line-through;
     opacity: 0.6;
 }
+
+.todo-delete {
+    opacity: 0;
+    transition: opacity 50ms ease-in-out;
+}
+
+.todo-row:hover .todo-delete {
+    opacity: 1;
+}
