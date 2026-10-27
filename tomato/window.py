@@ -6,15 +6,19 @@ from tomato.task import Task
 
 try:
     gi.require_version("Gtk", "4.0")
-    from gi.repository import Gtk
+    gi.require_version("Adw", "1")
+    from gi.repository import Adw, Gtk
 except (ImportError, ValueError) as e:
     print(f"Error: dependencies not met: {e}")
     sys.exit()
 
 
 class Window(Gtk.ApplicationWindow):
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, app: Adw.Application, data: list[Task], *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+
+        self.app = app
+        self.data = data
 
         self.set_title("Tomato")
 
@@ -50,7 +54,7 @@ class Window(Gtk.ApplicationWindow):
 
         if text:
             task = Task(text)
-            test_data.append(task)
+            self.data.append(task)
 
             self.add_task_row(task)
 
@@ -105,6 +109,6 @@ class Window(Gtk.ApplicationWindow):
         task_row: Gtk.Box,
         task: Task,
     ) -> None:
-        test_data.remove(task)
+        self.data.remove(task)
 
         self.todos_box.remove(task_row)

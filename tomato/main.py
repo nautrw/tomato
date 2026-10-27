@@ -35,10 +35,10 @@ class Application(Adw.Application):
         self.connect("activate", self._on_activate)
         self.data = test_data
 
-    def _on_activate(self, app) -> None:
-        self.win = Window(application=app)
+    def _on_activate(self, app: Adw.Application) -> None:
+        self.win = Window(app, self.data, application=app)
         self.win.present()
-        self.win.build_todos(test_data)
+        self.win.build_todos(self.data)
 
     def _init_actions(self) -> None:
         actions = {
