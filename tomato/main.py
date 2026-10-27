@@ -2,8 +2,8 @@ import sys
 
 import gi
 
+from tomato.data import Task, load_tasks
 from tomato.info import APP_ID
-from tomato.data import Task
 from tomato.window import Window
 
 try:
@@ -14,9 +14,7 @@ except (ImportError, ValueError) as e:
     print(f"Error: dependencies not met: {e}")
     sys.exit()
 
-test_data: list[Task] = [
-
-]
+test_data: list[Task] = []
 
 
 class Application(Adw.Application):
@@ -25,7 +23,7 @@ class Application(Adw.Application):
 
         self._init_actions()
         self.connect("activate", self._on_activate)
-        self.data = test_data
+        self.data = load_tasks()
 
     def _on_activate(self, app: Adw.Application) -> None:
         self.win = Window(app, self.data, application=app)
