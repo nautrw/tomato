@@ -102,7 +102,7 @@ class Window(Gtk.ApplicationWindow):
 
         trash_button = Gtk.Button.new_from_icon_name("user-trash-symbolic")
         trash_button.add_css_class("flat")
-        trash_button.add_css_class("todo-delete")
+        trash_button.add_css_class("task-delete")
         trash_button.set_tooltip_text("Delete Task")
         trash_button.set_halign(Gtk.Align.END)
         trash_button.connect("clicked", self.on_todo_delete, task_row, task)
