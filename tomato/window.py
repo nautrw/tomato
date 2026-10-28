@@ -7,10 +7,18 @@ from tomato.data import Task
 try:
     gi.require_version("Gtk", "4.0")
     gi.require_version("Adw", "1")
-    from gi.repository import Adw, Gtk
+    from gi.repository import Adw, Gdk, Gtk
 except (ImportError, ValueError) as e:
     print(f"Error: dependencies not met: {e}")
     sys.exit()
+
+css_provider = Gtk.CssProvider()
+css_provider.load_from_path("style.css")
+default_display = Gdk.Display.get_default()
+assert default_display is not None
+Gtk.StyleContext.add_provider_for_display(
+    default_display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
 
 
 class Window(Gtk.ApplicationWindow):
