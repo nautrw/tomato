@@ -27,7 +27,6 @@ class Application(Adw.Application):
     def do_activate(self) -> None:
         self.win = Window(self, self.data, application=self)
         self.win.present()
-        self.win.build_todos()
 
     def _init_actions(self) -> None:
         actions = {

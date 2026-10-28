@@ -64,6 +64,8 @@ class Window(Gtk.ApplicationWindow):
         self.main_window.append(scroll_window)
         self.main_window.append(task_input_box)
 
+        self.build_todos()
+        self.update_empty_state()
         self.set_child(self.main_window)
 
     def add_todo(self, entry: Gtk.Entry, **kwargs) -> None:
