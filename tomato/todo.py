@@ -34,6 +34,8 @@ class TaskRowBox(Gtk.ListBoxRow):
         if self.task.completed:
             self.checkbox_label.add_css_class("completed")
 
+        self.checkbox.connect("toggled", self.on_task_toggled)
+
         self.trash_button = Gtk.Button.new_from_icon_name("user-trash-symbolic")
         self.trash_button.add_css_class("float")
         self.trash_button.add_css_class("task-delete")
@@ -48,6 +50,15 @@ class TaskRowBox(Gtk.ListBoxRow):
 
     def on_task_delete(self, _button: Gtk.Button) -> None:
         self.emit("task-deleted", self.task)
+
+    def on_task_toggled(self, button: Gtk.CheckButton) -> None:
+        activated = button.get_active()
+        self.task.completed = activated
+
+        if self.task.completed:
+            self.checkbox_label.add_css_class("completed")
+        else:
+            self.checkbox_label.remove_css_class("completed")
 
 
 class TasksListBox(Gtk.ListBox):
