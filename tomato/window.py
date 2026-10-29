@@ -19,7 +19,9 @@ class Window(Gtk.ApplicationWindow):
         super().__init__(*args, **kwargs)
 
         self.app = app
-        self.data = [Task("a")]
+        self.data = [
+            Task("a"),
+        ]
 
         self.set_title("Tomato")
 
@@ -47,7 +49,7 @@ class Window(Gtk.ApplicationWindow):
             margin_end=8,
             margin_start=8,
         )
-        # task_input_box.connect("activate", self.add_todo)
+        task_input_box.connect("activate", self.on_entry_added_task)
         #
         # self.tasks_empty_box = Gtk.Box(
         #     orientation=Gtk.Orientation.VERTICAL,
@@ -64,7 +66,17 @@ class Window(Gtk.ApplicationWindow):
         # self.todos_box.append(self.tasks_empty_box)
 
         self.main_window.append(scroll_window)
-        # self.main_window.append(task_input_box)
+        self.main_window.append(task_input_box)
 
         self.set_child(self.main_window)
 
+    def on_entry_added_task(self, entry: Gtk.Entry) -> None:
+        text = entry.get_text()
+        text_len = entry.get_text_length()
+
+        if text and text_len:
+            new_task = Task(label=text)
+            self.tasks_box.add_task_row(new_task)
+
+            # will delete all text from task box
+            entry.delete_text(0, text_len)

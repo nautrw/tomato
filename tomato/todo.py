@@ -39,6 +39,7 @@ class TaskRowBox(Gtk.ListBoxRow):
         self.trash_button.add_css_class("task-delete")
         self.trash_button.set_tooltip_text("Delete Task")
         self.trash_button.set_halign(Gtk.Align.END)
+        # params defined on self.on_task_delete are implicitly passed here
         self.trash_button.connect("clicked", self.on_task_delete)
 
         self.box.append(self.checkbox)
